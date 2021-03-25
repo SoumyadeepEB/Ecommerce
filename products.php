@@ -53,11 +53,6 @@
                 </form>
             </div>
         </div>
-
-        <?php if(isset($_SESSION['success'])){ ?>
-            <div class="alert alert-success"><?php echo $_SESSION['success']; unset($_SESSION['success']); ?></div>
-        <?php } ?>
-
         <div class="row">
         <?php if(mysqli_num_rows($query) > 0){ while($product = mysqli_fetch_assoc($query)){ ?>
             <div class="col-md-4 mb-4">

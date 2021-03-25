@@ -4,7 +4,7 @@
 ?>
 <head>
     <?php include 'head.php' ?>
-    <title><?= isset($_SESSION['name']) ? $_SESSION['name'] : 'Guest' ?></title>
+    <title><?= isset($_SESSION['name']) ? 'Ecommerce | '.$_SESSION['name'] : 'Ecommerce | Guest' ?></title>
 </head>
 <body>
     <?php include 'header.php' ?>
@@ -38,8 +38,14 @@
                             $isql = "SELECT * FROM orders";
                             $iquery = mysqli_query($link,$isql);
                             $income = 0;
-                            while($row = mysqli_num_rows($iquery)){
-                                $income += $row['price'];
+                            if(mysqli_num_rows($iquery) > 0){
+                                while($row = mysqli_fetch_assoc($iquery)){
+                                    $prices = explode(',',$row['prices']);
+                                    $quantities = explode(',',$row['quantities']);
+                                    foreach($prices as $key=>$price){
+                                        $income += $price * $quantities[$key];
+                                    }
+                                }
                             }
                         ?>
                         <div class="card">
@@ -82,6 +88,14 @@
                 $uquery = mysqli_query($link,$usql);
             ?>
             <div class="jumbotron mt-5">
+            
+                <?php if(isset($_SESSION['success'])){ ?>
+                    <div class="alert alert-success"><?= $_SESSION['success']; unset($_SESSION['success']); ?></div>
+                <?php } ?>
+                <?php if(isset($_SESSION['error'])){ ?>
+                    <div class="alert alert-danger"><?= $_SESSION['error']; unset($_SESSION['error']); ?></div>
+                <?php } ?>
+
                 <h1 class="text-center">Welcome to Ecommerce</h1>
                 <h3>Latest Products</h3>
                 <div class="row">

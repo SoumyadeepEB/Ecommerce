@@ -13,7 +13,7 @@
     <ul class="navbar-nav">   
         <strong class="navbar-brand pr-3 border-right"><a class="text-white" href="index.php">ECOMMERCE</a></strong>
         <?php if(isset($_SESSION['type']) && $_SESSION['type'] == 0 || $_SESSION['type'] == 'guest'){ foreach($menus as $cat=>$subcats){ ?>
-            <li class="nav-item dropdown">
+            <li class="nav-item dropdown bg-secondary">
                 <a class="nav-link dropdown-toggle text-white" href="javascript:void(0)" data-toggle="dropdown"><?= $cat ?></a>
                 <div class="dropdown-menu">
                     <?php foreach($subcats as $subcat){ ?>
@@ -28,10 +28,19 @@
                 <a class="nav-link dropdown-toggle text-white" href="javascript:void(0)" data-toggle="dropdown">Settings</a>
                 <div class="dropdown-menu">
                     <a class="dropdown-item" href="categorylist.php">Category</a>
-                    <a class="dropdown-item" href="subcategorylist.php">Subategory</a>
+                    <a class="dropdown-item" href="subcategorylist.php">Subcategory</a>
                     <a class="dropdown-item" href="productlist.php">Product</a>
                 </div>
             </li>
+        <?php } ?>
+        <?php if($_SESSION['type'] != 'guest'){ ?>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-white" href="javascript:void(0)" data-toggle="dropdown">Orders</a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="#">All Order</a>
+                <a class="dropdown-item" href="#">Current Order</a>
+            </div>
+        </li>
         <?php } ?>
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle text-white" href="javascript:void(0)" data-toggle="dropdown"><?= isset($_SESSION['name']) ? 'Hi '.strtoupper(explode(' ',$_SESSION['name'])[0]) : 'Hi Guest' ?></a> 

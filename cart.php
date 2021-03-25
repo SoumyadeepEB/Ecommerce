@@ -24,7 +24,7 @@
                     $_SESSION['cart_item'][$item['id']]['quantity'] = $quantity;
                 }
                 $_SESSION['success'] = 'One product added into cart';
-                header('location:products.php');
+                header('location:viewproduct.php?pid='.$product_id);
             }else{
                 header('location:login.php');
             }
@@ -44,7 +44,6 @@
     <title>Cart | <?= isset($_SESSION['name']) ? $_SESSION['name'] : '' ?></title>
 </head>
 <body>
-    <?php //print_r($_SESSION) ?>
     <?php include 'header.php' ?>
     <div class="container">
         <h1 class="mt-4 mb-4">Cart Items</h1>
@@ -83,7 +82,7 @@
                         <th colspan="3">Total</th>
                         <td colspan="2">&#8377 <?= number_format($total) ?></td>
                     </tr>
-                <?php $checkoutbtn = '<button type="submit" class="btn btn-success"><i class="fas fa-arrow-circle-right"></i> Checkout</button>'; }else{ ?>
+                <?php $checkoutbtn = '<a href="order.php" class="btn btn-success"><i class="fas fa-arrow-circle-right"></i> Checkout</a>'; }else{ ?>
                     <tr><td colspan="5" class="text-center">Empty Cart</td></tr>
                 <?php } ?>
             </tbody>
