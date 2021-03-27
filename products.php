@@ -2,7 +2,52 @@
     session_start();
     include "config.php";
     $quantities = [1,2,3,4,5,6,7,8,9,10];
-    $sql = "SELECT product.id as product_id,category.name as category,subcategory.name as subcategory,product.name as product_name,price,image,product.status as status FROM product LEFT JOIN category ON product.cat_id = category.id LEFT JOIN subcategory ON product.subcat_id = subcategory.id WHERE product.status=1";
+    if(isset($_POST['search']) || $_SERVER['REQUEST_METHOD'] == 'POST'){
+        if(!empty($_POST['category']) && !empty($_POST['subcategory']) && !empty($_POST['product']) && !empty($_POST['price_min']) && !empty($_POST['price_max'])){
+            $category =  $_POST['category'];
+            $subcategory = $_POST['subcategory'];
+            $product = $_POST['product'];
+            $min = $_POST['price_min'];
+            $max = $_POST['price_max'];
+
+            $sql = "SELECT product.id as product_id,category.name as category,subcategory.name as subcategory,product.name as product_name,price,image,product.status as status FROM product LEFT JOIN category ON product.cat_id = category.id LEFT JOIN subcategory ON product.subcat_id = subcategory.id WHERE product.status=1 AND category.name LIKE '%$category%' AND subcategory.name LIKE '%$subcategory%' AND product.name LIKE '%$product%' AND price BETWEEN $min AND $max";
+        }
+        else if(!empty($_POST['category']) && !empty($_POST['subcategory']) && !empty($_POST['product']) && empty($_POST['price_min']) && empty($_POST['price_max'])){
+            $category =  $_POST['category'];
+            $subcategory = $_POST['subcategory'];
+            $product = $_POST['product'];
+
+            $sql = "SELECT product.id as product_id,category.name as category,subcategory.name as subcategory,product.name as product_name,price,image,product.status as status FROM product LEFT JOIN category ON product.cat_id = category.id LEFT JOIN subcategory ON product.subcat_id = subcategory.id WHERE product.status=1 AND category.name LIKE '%$category%' AND subcategory.name LIKE '%$subcategory%' AND product.name LIKE '%$product%'";
+        }
+        else if(!empty($_POST['category']) && !empty($_POST['subcategory']) && empty($_POST['product']) && empty($_POST['price_min']) && empty($_POST['price_max'])){
+            $category =  $_POST['category'];
+            $subcategory = $_POST['subcategory'];
+
+            $sql = "SELECT product.id as product_id,category.name as category,subcategory.name as subcategory,product.name as product_name,price,image,product.status as status FROM product LEFT JOIN category ON product.cat_id = category.id LEFT JOIN subcategory ON product.subcat_id = subcategory.id WHERE product.status=1 AND category.name LIKE '%$category%' AND subcategory.name LIKE '%$subcategory%'";
+        }
+        else if(!empty($_POST['category']) && empty($_POST['subcategory']) && !empty($_POST['product']) && !empty($_POST['price_min']) && !empty($_POST['price_max'])){
+            $category =  $_POST['category'];
+            $product = $_POST['product'];
+            $min = $_POST['price_min'];
+            $max = $_POST['price_max'];
+
+            $sql = "SELECT product.id as product_id,category.name as category,subcategory.name as subcategory,product.name as product_name,price,image,product.status as status FROM product LEFT JOIN category ON product.cat_id = category.id LEFT JOIN subcategory ON product.subcat_id = subcategory.id WHERE product.status=1 AND category.name LIKE '%$category%' AND product.name LIKE '%$product%' AND price BETWEEN $min AND $max";
+        }
+        else if(!empty($_POST['category']) && empty($_POST['subcategory']) && empty($_POST['product']) && !empty($_POST['price_min']) && !empty($_POST['price_max'])){
+            $category =  $_POST['category'];
+            $min = $_POST['price_min'];
+            $max = $_POST['price_max'];
+
+            $sql = "SELECT product.id as product_id,category.name as category,subcategory.name as subcategory,product.name as product_name,price,image,product.status as status FROM product LEFT JOIN category ON product.cat_id = category.id LEFT JOIN subcategory ON product.subcat_id = subcategory.id WHERE product.status=1 AND category.name LIKE '%$category%' AND price BETWEEN $min AND $max";
+        }
+        else{
+            $category =  $_POST['category'];
+
+            $sql = "SELECT product.id as product_id,category.name as category,subcategory.name as subcategory,product.name as product_name,price,image,product.status as status FROM product LEFT JOIN category ON product.cat_id = category.id LEFT JOIN subcategory ON product.subcat_id = subcategory.id WHERE product.status=1 AND category.name LIKE '%$category%'";
+        }
+    }else{
+        $sql = "SELECT product.id as product_id,category.name as category,subcategory.name as subcategory,product.name as product_name,price,image,product.status as status FROM product LEFT JOIN category ON product.cat_id = category.id LEFT JOIN subcategory ON product.subcat_id = subcategory.id WHERE product.status=1";
+    }
     $query = mysqli_query($link,$sql);
 ?>
 <head>
@@ -12,8 +57,11 @@
 <body>
     <?php include 'header.php' ?>
     <div class="container">
-        <h1 class="mt-4 mb-4">All Products</h1>
-
+        <?php if($_SERVER['REQUEST_METHOD'] == 'POST'){ echo '<h1 class="mt-4 mb-4">Search For '; foreach($_POST as $search){ if(!empty($search)){ ?>
+            <span><?= '#'.$search.' ' ?></span>
+        <?php }} echo '</h1>'; }else{ ?>
+            <h1 class="mt-4 mb-4">All Products</h1>
+        <?php } ?>
         <div class="row">
         <?php 
             $fsql = "SELECT * FROM category";
@@ -22,34 +70,31 @@
             <div class="col-md-12">
                 <form action="" method="POST">
                     <div class="row mt-2 mb-4">
-                        <div class="col-sm-3">
+                        <div class="col-sm-2">
                             <strong>Category</strong>
-                            <select id="category" name="category" class="form-control" required>
-                                <option value="">--Select Category--</option>
-                                <?php while($category = mysqli_fetch_assoc($fquery)){ ?>
-                                    <option value="<?= $category['id'] ?>"><?= $category['name'] ?></option>
-                                <?php } ?>
-                            </select>
+                            <input type="text" name="category" id="category" class="form-control" placeholder="Category name" value="<?= isset($_POST['category']) ? $_POST['category'] : '' ?>" required>
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-sm-2">
                             <strong>Subcategory</strong>
-                            <select id="subcategory" name="subcategory" class="form-control" required>
-                                <option value="">--Select Subcategory--</option>
-                            </select>
+                            <input type="text" name="subcategory" id="subcategory" class="form-control" placeholder="Subcategory name" value="<?= isset($_POST['subcategory']) ? $_POST['subcategory'] : '' ?>">
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-sm-2">
+                            <strong>Product</strong>
+                            <input type="text" class="form-control" placeholder="Product name" id="product" name="product" value="<?= isset($_POST['product']) ? $_POST['product'] : '' ?>">
+                        </div>
+                        <div class="col-sm-2">
                             <strong>Price Range Min</strong>
-                            <input type="text" class="form-control" placeholder="Price" id="price" name="price" requied>
+                            <input type="number" class="form-control" placeholder="Minimum price" id="price_min" name="price_min" min=0>
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-sm-2">
                             <strong>Price Range Max</strong>
-                            <input type="text" class="form-control" placeholder="Price" id="price" name="price" requied>
+                            <input type="number" class="form-control" placeholder="Maximum price" id="price_max" name="price_max" min=0>
+                        </div>
+                        <div class="col-sm-2 mt-4">
+                            <button type="submit" class="btn btn-info btn-sm" name="search"><i class='fas fa-search'></i> Search</button>
+                            <a href="products.php" class="btn btn-danger btn-sm">Reset</a>
                         </div>
                     </div>
-                        <div class="text-right">
-                            <button type="submit" class="btn btn-info"><i class='fas fa-search'></i> Search</button>
-                            <a href="products.php" class="btn btn-danger">Reset</a>
-                        </div>
                 </form>
             </div>
         </div>
@@ -79,7 +124,9 @@
                     </div>
                 </div>
             </div>
-            <?php }}else{echo '<h5>No Product Available</h5>';} ?>
+            <?php }}else{ ?>
+                <div class="col-md-12"><img src="assets/images/search-not-found.jpg" alt="search-not-found" width="100%"></div>
+            <?php } ?>
         </div>
     </div>
     <?php include 'footer.php' ?>

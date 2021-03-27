@@ -12,17 +12,18 @@
         $check_sql = "SELECT * FROM category WHERE name='$category'";
         $check_query = mysqli_query($link,$check_sql);
 
-        if(mysqli_num_rows($check_query) == 0 ){
+        if(mysqli_num_rows($check_query) == 0){
             $sql = "INSERT INTO category (name,status) VALUES ('$category',0)";
             $query = mysqli_query($link,$sql);
             if($query){
                 $_SESSION['success'] = 'One category added successfully';
+                header('location:categorylist.php');
             }else{
                 $_SESSION['error'] = 'Category not added';
                 header('location:categorylist.php');
             }
         }else{
-            $_SESSION['cat_error'] = 'Category not added';
+            $_SESSION['cat_error'] = 'Category name already exist';
         }
     }
 ?>
