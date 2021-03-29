@@ -53,8 +53,6 @@
         }
     }
 ?>
-<!DOCTYPE html>
-<html lang="en">
 <head>
     <?php include 'head.php' ?>
     <title>Login</title>
@@ -88,7 +86,7 @@
         </div>
 
         <div class="text-right mb-4">
-            <input type="checkbox" id="remember_me" name="remember_me" <?php echo isset($_COOKIE['username']) || isset($_COOKIE['password']) ? 'checked' : '' ?>> Remember me
+            <input type="checkbox" id="remember_me" name="remember_me" <?php echo isset($_COOKIE['userid']) && isset($_COOKIE['password']) ? 'checked' : '' ?>> Remember me
         </div>
 
         <button type="submit" class="btn btn-primary btn-block" name="login">Login</button>

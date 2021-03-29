@@ -4,17 +4,17 @@
     if(empty($_SESSION['id'])){
         header('location:login.php');
     }
-    $products = []; $quantities = []; $prices = []; $total = 0;
+    $products_array = []; $quantities_array = []; $prices_array = []; $total = 0;
     if(isset($_SESSION['cart_item']) && !empty($_SESSION['cart_item'])){
         foreach($_SESSION['cart_item'] as $key=>$item){
             $total += $_SESSION['cart_item'][$key]['price'] * $_SESSION['cart_item'][$key]['quantity'];
-            array_push($products,$key);
-            array_push($quantities,$item['quantity']);
-            array_push($prices,$item['price']);
+            array_push($products_array,$key);
+            array_push($quantities_array,$item['quantity']);
+            array_push($prices_array,$item['price']);
         }
-        $products = implode(',',$products);
-        $quantities = implode(',',$quantities);
-        $prices = implode(',',$prices);
+        $products = implode(',',$products_array);
+        $quantities = implode(',',$quantities_array);
+        $prices = implode(',',$prices_array);
     }
 
     if(isset($_POST['confirm_order'])){
@@ -30,6 +30,14 @@
         $query = mysqli_query($link,$sql);
         if($query){
             unset($_SESSION['cart_item']);
+            $product_count = count($products_array);
+            for($i=0;$i<$product_count;$i++){
+                $fsql = "SELECT stocks FROM product WHERE id='$products_array[$i]'";
+                $fquery = mysqli_query($link,$fsql);
+                $stock = mysqli_fetch_assoc($fquery)['stocks'] - $quantities_array[$i];
+                $usql = "UPDATE product SET stocks='$stock' WHERE id='$products_array[$i]'";
+                $uquery = mysqli_query($link,$usql);
+            }
             $_SESSION['success'] = 'Order successfully placed';
             header('location:index.php');
         }else{

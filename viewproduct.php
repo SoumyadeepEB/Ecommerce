@@ -47,6 +47,7 @@
                                 <td><h2><strong>&#8377 <?= number_format($product['price']) ?></strong></h2></td>
                             </tr>
                             <tr>
+                                <?php if($product['stocks'] > 0){ ?>
                                 <td><h4>Qty:</h4></td>
                                 <td><h4>
                                     <select name="quantity" title="Quantity">
@@ -55,10 +56,15 @@
                                         <?php } ?>
                                     </select>
                                 </h4></td>
+                                <?php } ?>
                             </tr>
                             <tr class="text-center">
                                 <td><a href="products.php" class="btn btn-default btn-lg">Back</a></td>
+                                <?php if($product['stocks'] > 0){ ?>
                                 <td><button type="submit" name="addtocart" class="btn btn-success btn-lg" title="Add to Cart"><i class='fas fa-shopping-cart'></i> Add to Cart</button></td>
+                                <?php }else{ ?>
+                                <td><p class="btn btn-default btn-lg text-danger"><strong>Out of Stock</strong></p></td>
+                                <?php } ?>
                             </tr>
                         </table>
                     </form>

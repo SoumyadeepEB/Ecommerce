@@ -10,20 +10,20 @@
             $min = $_POST['price_min'];
             $max = $_POST['price_max'];
 
-            $sql = "SELECT product.id as product_id,category.name as category,subcategory.name as subcategory,product.name as product_name,price,image,product.status as status FROM product LEFT JOIN category ON product.cat_id = category.id LEFT JOIN subcategory ON product.subcat_id = subcategory.id WHERE product.status=1 AND category.name LIKE '%$category%' AND subcategory.name LIKE '%$subcategory%' AND product.name LIKE '%$product%' AND price BETWEEN $min AND $max";
+            $sql = "SELECT product.id as product_id,category.name as category,subcategory.name as subcategory,product.name as product_name,price,image,product.status as status,stocks FROM product LEFT JOIN category ON product.cat_id = category.id LEFT JOIN subcategory ON product.subcat_id = subcategory.id WHERE product.status=1 AND category.name LIKE '%$category%' AND subcategory.name LIKE '%$subcategory%' AND product.name LIKE '%$product%' AND price BETWEEN $min AND $max";
         }
         else if(!empty($_POST['category']) && !empty($_POST['subcategory']) && !empty($_POST['product']) && empty($_POST['price_min']) && empty($_POST['price_max'])){
             $category =  $_POST['category'];
             $subcategory = $_POST['subcategory'];
             $product = $_POST['product'];
 
-            $sql = "SELECT product.id as product_id,category.name as category,subcategory.name as subcategory,product.name as product_name,price,image,product.status as status FROM product LEFT JOIN category ON product.cat_id = category.id LEFT JOIN subcategory ON product.subcat_id = subcategory.id WHERE product.status=1 AND category.name LIKE '%$category%' AND subcategory.name LIKE '%$subcategory%' AND product.name LIKE '%$product%'";
+            $sql = "SELECT product.id as product_id,category.name as category,subcategory.name as subcategory,product.name as product_name,price,image,product.status as status,stocks FROM product LEFT JOIN category ON product.cat_id = category.id LEFT JOIN subcategory ON product.subcat_id = subcategory.id WHERE product.status=1 AND category.name LIKE '%$category%' AND subcategory.name LIKE '%$subcategory%' AND product.name LIKE '%$product%'";
         }
         else if(!empty($_POST['category']) && !empty($_POST['subcategory']) && empty($_POST['product']) && empty($_POST['price_min']) && empty($_POST['price_max'])){
             $category =  $_POST['category'];
             $subcategory = $_POST['subcategory'];
 
-            $sql = "SELECT product.id as product_id,category.name as category,subcategory.name as subcategory,product.name as product_name,price,image,product.status as status FROM product LEFT JOIN category ON product.cat_id = category.id LEFT JOIN subcategory ON product.subcat_id = subcategory.id WHERE product.status=1 AND category.name LIKE '%$category%' AND subcategory.name LIKE '%$subcategory%'";
+            $sql = "SELECT product.id as product_id,category.name as category,subcategory.name as subcategory,product.name as product_name,price,image,product.status as status,stocks FROM product LEFT JOIN category ON product.cat_id = category.id LEFT JOIN subcategory ON product.subcat_id = subcategory.id WHERE product.status=1 AND category.name LIKE '%$category%' AND subcategory.name LIKE '%$subcategory%'";
         }
         else if(!empty($_POST['category']) && empty($_POST['subcategory']) && !empty($_POST['product']) && !empty($_POST['price_min']) && !empty($_POST['price_max'])){
             $category =  $_POST['category'];
@@ -31,22 +31,22 @@
             $min = $_POST['price_min'];
             $max = $_POST['price_max'];
 
-            $sql = "SELECT product.id as product_id,category.name as category,subcategory.name as subcategory,product.name as product_name,price,image,product.status as status FROM product LEFT JOIN category ON product.cat_id = category.id LEFT JOIN subcategory ON product.subcat_id = subcategory.id WHERE product.status=1 AND category.name LIKE '%$category%' AND product.name LIKE '%$product%' AND price BETWEEN $min AND $max";
+            $sql = "SELECT product.id as product_id,category.name as category,subcategory.name as subcategory,product.name as product_name,price,image,product.status as status,stocks FROM product LEFT JOIN category ON product.cat_id = category.id LEFT JOIN subcategory ON product.subcat_id = subcategory.id WHERE product.status=1 AND category.name LIKE '%$category%' AND product.name LIKE '%$product%' AND price BETWEEN $min AND $max";
         }
         else if(!empty($_POST['category']) && empty($_POST['subcategory']) && empty($_POST['product']) && !empty($_POST['price_min']) && !empty($_POST['price_max'])){
             $category =  $_POST['category'];
             $min = $_POST['price_min'];
             $max = $_POST['price_max'];
 
-            $sql = "SELECT product.id as product_id,category.name as category,subcategory.name as subcategory,product.name as product_name,price,image,product.status as status FROM product LEFT JOIN category ON product.cat_id = category.id LEFT JOIN subcategory ON product.subcat_id = subcategory.id WHERE product.status=1 AND category.name LIKE '%$category%' AND price BETWEEN $min AND $max";
+            $sql = "SELECT product.id as product_id,category.name as category,subcategory.name as subcategory,product.name as product_name,price,image,product.status as status,stocks FROM product LEFT JOIN category ON product.cat_id = category.id LEFT JOIN subcategory ON product.subcat_id = subcategory.id WHERE product.status=1 AND category.name LIKE '%$category%' AND price BETWEEN $min AND $max";
         }
         else{
             $category =  $_POST['category'];
 
-            $sql = "SELECT product.id as product_id,category.name as category,subcategory.name as subcategory,product.name as product_name,price,image,product.status as status FROM product LEFT JOIN category ON product.cat_id = category.id LEFT JOIN subcategory ON product.subcat_id = subcategory.id WHERE product.status=1 AND category.name LIKE '%$category%'";
+            $sql = "SELECT product.id as product_id,category.name as category,subcategory.name as subcategory,product.name as product_name,price,image,product.status as status,stocks FROM product LEFT JOIN category ON product.cat_id = category.id LEFT JOIN subcategory ON product.subcat_id = subcategory.id WHERE product.status=1 AND category.name LIKE '%$category%'";
         }
     }else{
-        $sql = "SELECT product.id as product_id,category.name as category,subcategory.name as subcategory,product.name as product_name,price,image,product.status as status FROM product LEFT JOIN category ON product.cat_id = category.id LEFT JOIN subcategory ON product.subcat_id = subcategory.id WHERE product.status=1";
+        $sql = "SELECT product.id as product_id,category.name as category,subcategory.name as subcategory,product.name as product_name,price,image,product.status as status,stocks FROM product LEFT JOIN category ON product.cat_id = category.id LEFT JOIN subcategory ON product.subcat_id = subcategory.id WHERE product.status=1";
     }
     $query = mysqli_query($link,$sql);
 ?>
@@ -110,6 +110,7 @@
                         <h4 class="card-text">&#8377 <?= number_format($product['price']) ?></h4>
                         <p><span class="badge badge-primary" title="Category"><?= $product['category'] ?></span> <i class='fas fa-angle-double-right'></i> <span class="badge badge-secondary" title="Subcategory"><?= $product['subcategory'] ?></span></p>
                         <form action="cart.php?action=add&pid=<?= $product['product_id'] ?>" method="POST">
+                        <?php if($product['stocks'] > 0){ ?>
                             <div class="row text-center">
                                 <div class="col-md-4">
                                     <select name="quantity" title="Quantity" class="form-control">
@@ -120,6 +121,15 @@
                                 </div>
                                 <div class="col-md-8"><button type="submit" name="addtocart" class="btn btn-success" title="Add to Cart"><i class='fas fa-shopping-cart'></i> Add to Cart</button></div>
                             </div>
+                            <?php }else{ ?>
+                                <div class="row text-center">
+                                    <div class="col-md-12">
+                                        <p class="bg-danger text-white border pt-2 pb-2 border-danger">
+                                            <strong>Out of Stock</strong>
+                                        </p>
+                                    </div>
+                                </div>
+                            <?php } ?>
                         </form>
                     </div>
                 </div>

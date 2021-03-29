@@ -84,7 +84,7 @@
             </div>
             <img src="assets/images/ecommerce.png" width="100%" height="300px" style="border:2px dotted blue">
         <?php }else{ 
-                $usql = "SELECT product.id as product_id,category.name as category,subcategory.name as subcategory,product.name as product_name,price,image,product.status as status FROM product LEFT JOIN category ON product.cat_id = category.id LEFT JOIN subcategory ON product.subcat_id = subcategory.id WHERE product.status=1 ORDER BY product_id DESC LIMIT 3";
+                $usql = "SELECT product.id as product_id,category.name as category,subcategory.name as subcategory,product.name as product_name,price,image,product.status as status,stocks FROM product LEFT JOIN category ON product.cat_id = category.id LEFT JOIN subcategory ON product.subcat_id = subcategory.id WHERE product.status=1 AND stocks!=0 ORDER BY product_id DESC LIMIT 3";
                 $uquery = mysqli_query($link,$usql);
             ?>
             <div class="jumbotron mt-5">

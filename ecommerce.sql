@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 27, 2021 at 08:03 AM
+-- Generation Time: Mar 29, 2021 at 04:56 PM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 8.0.2
 
@@ -82,7 +82,7 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `user_id`, `products`, `quantities`, `prices`, `address`, `payment_method`, `invoice`, `status`, `timestamp`) VALUES
-(8, 2, '2,4,11', '1,3,1', '10000,750,1700', '271 K.C Bose Road, Subhasgram, Pragatipally', 'cod', 'dummy.pdf', 1, '2021-03-25 10:03:23 am');
+(15, 2, '9,11', '2,1', '500,1700', '271 K.C Bose Road, Subhasgram, Pragatipally', 'cod', 'dummy.pdf', 1, '2021-03-29 16:03:26 pm');
 
 -- --------------------------------------------------------
 
@@ -115,9 +115,9 @@ INSERT INTO `product` (`id`, `cat_id`, `subcat_id`, `name`, `price`, `image`, `s
 (6, 5, 11, 'Mastered Oil', '130', 'product_img_1616477477.jpg', 40, 'Lorem Ipsum is simply dummy text', 1),
 (7, 1, 6, 'Round necked Tshirt', '650', 'product_img_1616477696.jpg', 5, 'Lorem Ipsum is simply dummy text', 1),
 (8, 2, 3, 'Pink Cotton Kurti', '950', 'product_img_1616505148.jpg', 12, 'Lorem Ipsum is simply dummy text', 1),
-(9, 3, 2, '2 Container Lunchbox', '500', 'product_img_1616508116.jpg', 2, 'Borosil 2 Container CarryFresh SS Insulated Lunch Box', 1),
+(9, 3, 2, '2 Container Lunchbox', '500', 'product_img_1616508116.jpg', 0, 'Borosil 2 Container CarryFresh SS Insulated Lunch Box', 1),
 (10, 4, 14, 'HP Laptop', '35000', 'product_img_1616580379.jpg', 10, 'Best laptop for office purpose', 1),
-(11, 10, 15, 'India ODI Jersey', '1700', 'product_img_1616596282.jpg', 10, 'Exclusive India Cricket team jersey ', 1);
+(11, 10, 15, 'India ODI Jersey', '1700', 'product_img_1616596282.jpg', 9, 'Exclusive India Cricket team jersey ', 1);
 
 -- --------------------------------------------------------
 
@@ -249,7 +249,7 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `product`

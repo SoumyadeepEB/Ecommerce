@@ -46,6 +46,7 @@
 <body>
     <?php include 'header.php' ?>
     <div class="container">
+        <?php if($_SESSION['id'] != 1){ ?>
         <h1 class="mt-4 mb-4">Cart Items</h1>
 
         <?php if(isset($_SESSION['success'])){ ?>
@@ -88,6 +89,7 @@
             </tbody>
         </table>
         <div class="text-right"><?= isset($checkoutbtn) ? $checkoutbtn : '' ?></div>
+        <?php }else{ echo '<script>window.location.href="index.php"</script>'; } ?>
     </div>
     <?php include 'footer.php' ?>
 </body>

@@ -4,7 +4,7 @@
     $page = isset($_GET['page']) ? mysqli_real_escape_string($link,$_GET['page']) : 1;
     $limit = 3;
     $offset = ($page - 1) * $limit;
-    $sql = "SELECT product.id as product_id,category.name as category,subcategory.name as subcategory,product.name as product_name,price,image,stocks,description,product.status as status FROM product LEFT JOIN category ON product.cat_id = category.id LEFT JOIN subcategory ON product.subcat_id = subcategory.id LIMIT $limit OFFSET $offset";
+    $sql = "SELECT product.id as product_id,category.name as category,subcategory.name as subcategory,product.name as product_name,price,image,stocks,description,product.status as status FROM product INNER JOIN category ON product.cat_id = category.id INNER JOIN subcategory ON product.subcat_id = subcategory.id LIMIT $limit OFFSET $offset";
     $query = mysqli_query($link,$sql);
 ?>
 <head>
