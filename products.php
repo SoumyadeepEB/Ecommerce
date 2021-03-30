@@ -57,6 +57,7 @@
 <body>
     <?php include 'header.php' ?>
     <div class="container">
+        <?php if($_SESSION['type'] != 1){ ?>
         <?php if($_SERVER['REQUEST_METHOD'] == 'POST'){ echo '<h1 class="mt-4 mb-4">Search For '; foreach($_POST as $search){ if(!empty($search)){ ?>
             <span><?= '#'.$search.' ' ?></span>
         <?php }} echo '</h1>'; }else{ ?>
@@ -138,6 +139,7 @@
                 <div class="col-md-12"><img src="assets/images/search-not-found.jpg" alt="search-not-found" width="100%"></div>
             <?php } ?>
         </div>
+        <?php }else{ echo '<script>window.location.href="index.php"</script>'; } ?>
     </div>
     <?php include 'footer.php' ?>
 </body>

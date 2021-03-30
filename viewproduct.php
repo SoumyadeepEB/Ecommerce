@@ -71,7 +71,7 @@
                     </div>
                 </div>
             </div>
-        <?php } ?>
+        <?php }else{ echo '<script>window.location.href="index.php"</script>'; } ?>
     </div>
     <?php include 'footer.php' ?>
 </body>
