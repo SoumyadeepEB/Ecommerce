@@ -115,7 +115,7 @@
                 <?php }}else{echo '<h5>No Product Available</h5>';} ?>
                 </div>
             </div>
-            <div class="text-right"><h4><a href="products.php" class="text-dark">See All Products</a></h4></div>
+            <div class="text-right"><h4><a href="allproduct.php" class="text-dark">See All Products</a></h4></div>
         <?php } ?>
     </div>
     <?php include 'footer.php' ?>

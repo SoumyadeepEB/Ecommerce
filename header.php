@@ -17,7 +17,7 @@
                 <a class="nav-link dropdown-toggle text-white" href="javascript:void(0)" data-toggle="dropdown"><?= $cat ?></a>
                 <div class="dropdown-menu">
                     <?php foreach($subcats as $key2=>$subcat){ ?>
-                        <a class="dropdown-item" href="products_nav.php?category=<?= $key1 ?>&subcategory=<?= $key2 ?>"><?= $subcat ?></a>
+                        <a class="dropdown-item" href="product.php?category=<?= $cat ?>&subcategory=<?= $subcat ?>"><?= $subcat ?></a>
                     <?php }} ?>
                 </div>
             </li>
@@ -34,13 +34,7 @@
             </li>
         <?php } ?>
         <?php if($_SESSION['type'] != 'guest'){ ?>
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle text-white" href="javascript:void(0)" data-toggle="dropdown">Orders</a>
-            <div class="dropdown-menu">
-                <a class="dropdown-item" href="#">All Order</a>
-                <a class="dropdown-item" href="#">Current Order</a>
-            </div>
-        </li>
+            <a class="nav-link text-white" href="vieworder.php">Orders</a>
         <?php } ?>
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle text-white" href="javascript:void(0)" data-toggle="dropdown"><?= isset($_SESSION['name']) ? 'Hi '.strtoupper(explode(' ',$_SESSION['name'])[0]) : 'Hi Guest' ?></a> 
