@@ -3,11 +3,11 @@
     include "config.php";
 ?>
 <head>
-    <?php include 'head.php' ?>
+    <?php include 'layouts/head.php' ?>
     <title><?= isset($_SESSION['name']) ? 'Ecommerce | '.$_SESSION['name'] : 'Ecommerce | Guest' ?></title>
 </head>
 <body>
-    <?php include 'header.php' ?>
+    <?php include 'layouts/header.php' ?>
     <div class="container">
         <img src="assets/images/loader.gif" id="loader" width="100px" style="position:absolute;top:50%;left:50%;z-index:1;display:none">
         <?php if($_SESSION['type'] == 1){ ?>
@@ -40,8 +40,8 @@
                             $income = 0;
                             if(mysqli_num_rows($iquery) > 0){
                                 while($row = mysqli_fetch_assoc($iquery)){
-                                    $prices = explode(',',$row['prices']);
-                                    $quantities = explode(',',$row['quantities']);
+                                    $prices = json_decode($row['prices']);
+                                    $quantities = json_decode($row['quantities']);
                                     foreach($prices as $key=>$price){
                                         $income += $price * $quantities[$key];
                                     }
@@ -118,5 +118,5 @@
             <div class="text-right"><h4><a href="allproduct.php" class="text-dark">See All Products</a></h4></div>
         <?php } ?>
     </div>
-    <?php include 'footer.php' ?>
+    <?php include 'layouts/footer.php' ?>
 </body>

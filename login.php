@@ -54,11 +54,11 @@
     }
 ?>
 <head>
-    <?php include 'head.php' ?>
+    <?php include 'layouts/head.php' ?>
     <title>Login</title>
 </head>
 <body>
-<?php include 'header.php' ?>
+<?php include 'layouts/header.php' ?>
 <div class="container">
   <div id="login">
     <div class="mb-4"><h1 class="text-center">Login</h1></div>
@@ -94,5 +94,5 @@
     </form>
   </div>
 </div>
-<?php include 'footer.php' ?>
+<?php include 'layouts/footer.php' ?>
 </body>

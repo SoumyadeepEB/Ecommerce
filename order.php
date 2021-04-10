@@ -12,9 +12,9 @@
             array_push($quantities_array,$item['quantity']);
             array_push($prices_array,$item['price']);
         }
-        $products = implode(',',$products_array);
-        $quantities = implode(',',$quantities_array);
-        $prices = implode(',',$prices_array);
+        $products = json_encode($products_array);
+        $quantities = json_encode($quantities_array);
+        $prices = json_encode($prices_array);
     }
 
     if(isset($_POST['confirm_order'])){
@@ -24,7 +24,7 @@
         $address = mysqli_fetch_assoc($aquery)['address'];
         $payment_method = $_POST['payment_method'];
         $invoice = 'dummy.pdf';
-        $timestamp = date('Y-m-d H:m:s a');
+        $timestamp = date('Y-m-d h:m:s a');
 
         $sql = "INSERT INTO orders (user_id,products,quantities,prices,address,payment_method,invoice,timestamp) VALUES ('$user_id','$products','$quantities','$prices','$address','$payment_method','$invoice','$timestamp')";
         $query = mysqli_query($link,$sql);
@@ -46,14 +46,12 @@
         }
     }
 ?>
-<!DOCTYPE html>
-<html lang="en">
 <head>
-    <?php include 'head.php' ?>
+    <?php include 'layouts/head.php' ?>
     <title>New Order | <?= isset($_SESSION['name']) ? $_SESSION['name'] : '' ?></title>
 </head>
 <body>
-    <?php include 'header.php' ?>
+    <?php include 'layouts/header.php' ?>
     <div class="container">
     <?php if(!empty($_SESSION['cart_item'])){
     ?>
@@ -87,6 +85,6 @@
         </form>
     <?php }else{ echo '<script>window.location.href="index.php"</script>'; } ?>
     </div>
-    <?php include 'footer.php' ?>
+    <?php include 'layouts/footer.php' ?>
 </body>
 </html>

@@ -8,11 +8,11 @@
     $product = mysqli_fetch_assoc($fquery);
 ?>
 <head>
-    <?php include 'head.php' ?>
+    <?php include 'layouts/head.php' ?>
     <title><?= isset($product['product_name']) ? $product['product_name'] : '' ?></title>
 </head>
 <body>
-    <?php include 'header.php' ?>
+    <?php include 'layouts/header.php' ?>
     <div class="container">
         <img src="assets/images/loader.gif" id="loader" width="100px" style="position:absolute;top:50%;left:50%;z-index:1;display:none">
         <?php if($_SESSION['type'] != 1){ ?>
@@ -73,5 +73,5 @@
             </div>
         <?php }else{ echo '<script>window.location.href="index.php"</script>'; } ?>
     </div>
-    <?php include 'footer.php' ?>
+    <?php include 'layouts/footer.php' ?>
 </body>

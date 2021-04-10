@@ -8,11 +8,11 @@
     $query = mysqli_query($link,$sql);
 ?>
 <head>
-    <?php include 'head.php' ?>
+    <?php include 'layouts/head.php' ?>
     <title>Product List</title>
 </head>
 <body>
-    <?php include 'header.php' ?>
+    <?php include 'layouts/header.php' ?>
     <div class="container">
         <img src="assets/images/loader.gif" id="loader" width="100px" style="position:absolute;top:50%;left:50%;z-index:1;display:none">
         <?php if($_SESSION['type'] == 1){ ?>
@@ -29,16 +29,16 @@
             <table class="table table-bordered table-striped table-hover">
             <thead class="bg-dark text-center text-white">
                 <tr>
-                    <th>Product Id</th>
-                    <th>Category</th>
-                    <th>Subcategory</th>
-                    <th>Product Name</th>
-                    <th>Price (&#8377)</th>
-                    <th>Image</th>
-                    <th>Stocks (pc)</th>
-                    <th>Description</th>
-                    <th>Status</th>
-                    <th>Action</th>
+                    <th class="align-middle">Product Id</th>
+                    <th class="align-middle">Category</th>
+                    <th class="align-middle">Subcategory</th>
+                    <th class="align-middle">Product Name</th>
+                    <th class="align-middle">Price (&#8377)</th>
+                    <th class="align-middle">Image</th>
+                    <th class="align-middle">Stocks (pc)</th>
+                    <th class="align-middle">Description</th>
+                    <th class="align-middle">Status</th>
+                    <th class="align-middle">Action</th>
                 </tr>
             </thead>
             <tbody class="text-center">
@@ -93,5 +93,5 @@
             </ul>
         <?php }else{ echo '<script>window.location.href="index.php"</script>'; } ?>
     </div>
-    <?php include 'footer.php' ?>
+    <?php include 'layouts/footer.php' ?>
 </body>

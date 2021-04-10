@@ -37,14 +37,12 @@
         }
     }
 ?>
-<!DOCTYPE html>
-<html lang="en">
 <head>
-    <?php include 'head.php' ?>
+    <?php include 'layouts/head.php' ?>
     <title>Cart | <?= isset($_SESSION['name']) ? $_SESSION['name'] : '' ?></title>
 </head>
 <body>
-    <?php include 'header.php' ?>
+    <?php include 'layouts/header.php' ?>
     <div class="container">
         <?php if($_SESSION['id'] != 1){ ?>
         <h1 class="mt-4 mb-4">Cart Items</h1>
@@ -91,6 +89,6 @@
         <div class="text-right"><?= isset($checkoutbtn) ? $checkoutbtn : '' ?></div>
         <?php }else{ echo '<script>window.location.href="index.php"</script>'; } ?>
     </div>
-    <?php include 'footer.php' ?>
+    <?php include 'layouts/footer.php' ?>
 </body>
 </html>

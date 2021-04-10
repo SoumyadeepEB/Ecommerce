@@ -51,11 +51,11 @@
     $query = mysqli_query($link,$sql);
 ?>
 <head>
-    <?php include 'head.php' ?>
+    <?php include 'layouts/head.php' ?>
     <title>All Products</title>
 </head>
 <body>
-    <?php include 'header.php' ?>
+    <?php include 'layouts/header.php' ?>
     <div class="container">
         <?php if($_SESSION['type'] != 1){ ?>
         <?php if($_SERVER['REQUEST_METHOD'] == 'POST'){ echo '<h1 class="mt-4 mb-4">Search For '; foreach($_POST as $search){ if(!empty($search)){ ?>
@@ -141,5 +141,5 @@
         </div>
         <?php }else{ echo '<script>window.location.href="index.php"</script>'; } ?>
     </div>
-    <?php include 'footer.php' ?>
+    <?php include 'layouts/footer.php' ?>
 </body>

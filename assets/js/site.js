@@ -2,7 +2,7 @@ $(document).ready(function(){
     $('#category').on('change',function(){
         var category = $(this).val();
         $.ajax({
-            url: 'getsubcategory.php',
+            url: 'ajax/getsubcategory.php',
             type: 'POST',
             datatype: 'json',
             data: {'category':category},
@@ -25,7 +25,7 @@ $(document).ready(function(){
         var id = $(this).data('cid');
         var status = $(this).val();
         $.ajax({
-            url: 'changecategorystatus.php',
+            url: 'ajax/changecategorystatus.php',
             type: 'POST',
             datatype: 'json',
             data: {'id':id,'status':status},
@@ -48,7 +48,7 @@ $(document).ready(function(){
         var id = $(this).data('sid');
         var status = $(this).val();
         $.ajax({
-            url: 'changesubcategorystatus.php',
+            url: 'ajax/changesubcategorystatus.php',
             type: 'POST',
             datatype: 'json',
             data: {'id':id,'status':status},
@@ -71,7 +71,7 @@ $(document).ready(function(){
         var id = $(this).data('pid');
         var status = $(this).val();
         $.ajax({
-            url: 'changeproductstatus.php',
+            url: 'ajax/changeproductstatus.php',
             type: 'POST',
             datatype: 'json',
             data: {'id':id,'status':status},
@@ -86,6 +86,28 @@ $(document).ready(function(){
             },
             complete: function() {
                 $('#loader').hide();
+            }
+        });
+    });
+
+    $('.product').on('mouseover',function(){
+        var slno = $(this).data('num')
+        var id = $(this).data('pid')
+        $.ajax({
+            url: 'ajax/getproductimage.php',
+            type: 'POST',
+            datatype: 'json',
+            data: {'id':id},
+            success: function(response){
+                $('#'+slno+'-'+id).popover({
+                    placement: 'top',
+                    trigger: 'hover',
+                    html: true,
+                    content: "<div class='text-center'><img src='assets/images/products/"+response+"' width='100' height='100'></div>"
+                });
+            },
+            error: function(){
+                console.log('internal server error')
             }
         });
     });

@@ -28,11 +28,11 @@
     }
 ?>
 <head>
-    <?php include 'head.php' ?>
+    <?php include 'layouts/head.php' ?>
     <title>Category List</title>
 </head>
 <body>
-    <?php include 'header.php' ?>
+    <?php include 'layouts/header.php' ?>
     <div class="container">
         <img src="assets/images/loader.gif" id="loader" width="100px" style="position:absolute;top:50%;left:50%;z-index:1;display:none">
         <?php if($_SESSION['type'] == 1){ ?>
@@ -74,10 +74,10 @@
             <table class="table table-bordered table-striped table-hover">
             <thead class="bg-dark text-center text-white">
                 <tr>
-                    <th>Category Id</th>
-                    <th>Category Name</th>
-                    <th>Status</th>
-                    <th>Action</th>
+                    <th class="align-middle">Category Id</th>
+                    <th class="align-middle">Category Name</th>
+                    <th class="align-middle">Status</th>
+                    <th class="align-middle">Action</th>
                 </tr>
             </thead>
             <tbody class="text-center">
@@ -118,5 +118,5 @@
             </ul>
         <?php }else{ echo '<script>window.location.href="index.php"</script>'; } ?>
     </div>
-    <?php include 'footer.php' ?>
+    <?php include 'layouts/footer.php' ?>
 </body>

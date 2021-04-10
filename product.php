@@ -2,8 +2,8 @@
     session_start();
     include "config.php";
     $quantities = [1,2,3,4,5,6,7,8,9,10];
-    $category = mysqli_real_escape_string($link,$_GET['category']);
-    $subcategory = mysqli_real_escape_string($link,$_GET['subcategory']);
+    $category = isset($_GET['category']) ? mysqli_real_escape_string($link,$_GET['category']) : '';
+    $subcategory = isset($_GET['subcategory']) ? mysqli_real_escape_string($link,$_GET['subcategory']) : '';
     
     if(isset($_POST['search']) || $_SERVER['REQUEST_METHOD'] == 'POST'){
 
@@ -13,11 +13,11 @@
     $query = mysqli_query($link,$sql);
 ?>
 <head>
-    <?php include 'head.php' ?>
+    <?php include 'layouts/head.php' ?>
     <title>Products</title>
 </head>
 <body>
-    <?php include 'header.php' ?>
+    <?php include 'layouts/header.php' ?>
     <div class="container">
         <?php if($_SESSION['type'] != 1){ ?>
         <?php if($_SERVER['REQUEST_METHOD'] == 'POST'){ echo '<h1 class="mt-4 mb-4">Search For '; foreach($_POST as $search){ if(!empty($search)){ ?>
@@ -95,5 +95,5 @@
         </div>
         <?php }else{ echo '<script>window.location.href="index.php"</script>'; } ?>
     </div>
-    <?php include 'footer.php' ?>
+    <?php include 'layouts/footer.php' ?>
 </body>
