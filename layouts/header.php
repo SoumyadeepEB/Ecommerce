@@ -33,9 +33,17 @@
                 </div>
             </li>
         <?php } ?>
-        <?php if($_SESSION['type'] != 'guest'){ ?>
+        <?php if($_SESSION['type'] != 'guest'){ if($_SESSION['type'] == 0){ ?>
             <a class="nav-link text-white" href="orderlist.php">Orders</a>
-        <?php } ?>
+        <?php }else{ ?>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-white" href="javascript:void(0)" data-toggle="dropdown">Orders</a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="orderlist.php">List</a>
+                    <a class="dropdown-item" href="ordersummary.php">Summary Report</a>
+                </div>
+            </li>
+        <?php }} ?>
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle text-white" href="javascript:void(0)" data-toggle="dropdown"><?= isset($_SESSION['name']) ? 'Hi '.strtoupper(explode(' ',$_SESSION['name'])[0]) : 'Hi Guest' ?></a> 
             <div class="dropdown-menu">

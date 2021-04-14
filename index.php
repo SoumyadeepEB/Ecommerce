@@ -16,68 +16,98 @@
                 <div class="row">
                     <div class="col-md-4">
                         <?php 
-                            $osql = "SELECT * FROM orders";
-                            $oquery = mysqli_query($link,$osql);
-                            $orders = mysqli_num_rows($oquery);
-                        ?>
-                        <div class="card">
-                            <div class="card-body bg-info text-white" style="width:100%;">
-                                <div class="float-left">
-                                    <h2 class="card-title"><strong><?= isset($orders) ? $orders : 0 ?></strong></h2>
-                                    <h4 class="card-text">Total Orders</h4>
-                                </div>
-                                <div class="float-right">
-                                    <i class='fas fa-shopping-cart' style="font-size:80px;opacity:0.3"></i>
-                                </div>
-                            </div>
-                            <div class="text-center" style="background-color:#258699"><a href="#" class="text-white">More info</a></div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <?php 
-                            $isql = "SELECT * FROM orders";
-                            $iquery = mysqli_query($link,$isql);
-                            $income = 0;
-                            if(mysqli_num_rows($iquery) > 0){
-                                while($row = mysqli_fetch_assoc($iquery)){
-                                    $prices = json_decode($row['prices']);
-                                    $quantities = json_decode($row['quantities']);
+                            $today = date('Y-m-d');
+                            $sql = "SELECT * FROM orders WHERE date='$today'";
+                            $query = mysqli_query($link,$sql);
+                            if(mysqli_num_rows($query) > 0){
+                                $results = mysqli_fetch_all($query,MYSQLI_ASSOC);
+                                $today_income = 0;
+                                foreach($results as $result){
+                                    $prices = json_decode($result['prices']);
+                                    $quantities = json_decode($result['quantities']);
                                     foreach($prices as $key=>$price){
-                                        $income += $price * $quantities[$key];
+                                        $today_income += $price * $quantities[$key];
                                     }
                                 }
+                            }else{
+                                $today_income = 0;
                             }
                         ?>
                         <div class="card">
-                            <div class="card-body bg-success text-white" style="width:100%;">
+                            <div class="card-body bg-info text-white" style="width:100%; height:150px;">
                                 <div class="float-left">
-                                    <h2 class="card-title"><strong>&#8377 <?= number_format($income) ?></strong></h2>
-                                    <h4 class="card-text">Total Income</h4>
+                                    <h2 class="card-title"><strong>&#8377 <?= isset($today_income) ? number_format($today_income) : 0 ?></strong></h2>
+                                    <h4 class="card-text">Today</h4>
                                 </div>
                                 <div class="float-right">
                                     <i class='fas fa-money-bill-alt' style="font-size:80px;opacity:0.3"></i>
                                 </div>
                             </div>
-                            <div class="text-center" style="background-color:#248a3d"><a href="#" class="text-white">More info</a></div>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <?php 
-                            $usql = "SELECT * FROM users WHERE type=0";
-                            $uquery = mysqli_query($link,$usql);
-                            $users = mysqli_num_rows($uquery);
+                            $firstday = date('Y-m-01');
+                            $today = date('Y-m-d');
+                            $sql = "SELECT * FROM orders WHERE date BETWEEN '$firstday' AND '$today'";
+                            $query = mysqli_query($link,$sql);
+                            if(mysqli_num_rows($query) > 0){
+                                $results = mysqli_fetch_all($query,MYSQLI_ASSOC);
+                                $current_month_income = 0;
+                                foreach($results as $result){
+                                    $prices = json_decode($result['prices']);
+                                    $quantities = json_decode($result['quantities']);
+                                    foreach($prices as $key=>$price){
+                                        $current_month_income += $price * $quantities[$key];
+                                    }
+                                }
+                            }else{
+                                $current_month_income = 0;
+                            }
                         ?>
                         <div class="card">
-                            <div class="card-body bg-danger text-white" style="width:100%;">
+                            <div class="card-body bg-success text-white" style="width:100%; height:150px;">
                                 <div class="float-left">
-                                    <h2 class="card-title"><strong><?= isset($users) ? $users : 0 ?></strong></h2>
-                                    <h4 class="card-text">Total Users</h4>
+                                    <h2 class="card-title"><strong>&#8377 <?= isset($current_month_income) ? number_format($current_month_income) : 0 ?></strong></h2>
+                                    <h4 class="card-text">Current Month</h4>
                                 </div>
                                 <div class="float-right">
-                                    <i class='fas fa-user' style="font-size:80px;opacity:0.3"></i>
+                                    <i class='fas fa-money-bill-alt' style="font-size:80px;opacity:0.3"></i>
                                 </div>
                             </div>
-                            <div class="text-center" style="background-color:#b83737"><a href="#" class="text-white">More info</a></div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <?php 
+                            $month_ini = new DateTime("first day of last month"); $month_ini = $month_ini->format('Y-m-d');
+                            $month_end = new DateTime("last day of last month"); $month_end = $month_end->format('Y-m-d');
+
+                            $sql = "SELECT * FROM orders WHERE date BETWEEN '$month_ini' AND '$month_end'";
+                            $query = mysqli_query($link,$sql);
+                            if(mysqli_num_rows($query) > 0){
+                                $results = mysqli_fetch_all($query,MYSQLI_ASSOC);
+                                $prev_month_income = 0;
+                                foreach($results as $result){
+                                    $prices = json_decode($result['prices']);
+                                    $quantities = json_decode($result['quantities']);
+                                    foreach($prices as $key=>$price){
+                                        $prev_month_income += $price * $quantities[$key];
+                                    }
+                                }
+                            }else{
+                                $prev_month_income = 0;
+                            }
+                        ?>
+                        <div class="card">
+                            <div class="card-body bg-danger text-white" style="width:100%; height:150px;">
+                                <div class="float-left">
+                                    <h2 class="card-title"><strong><?= isset($prev_month_income) ? number_format($prev_month_income) : 0 ?></strong></h2>
+                                    <h4 class="card-text">Last Month</h4>
+                                </div>
+                                <div class="float-right">
+                                    <i class='fas fa-money-bill-alt' style="font-size:80px;opacity:0.3"></i>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
