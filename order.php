@@ -25,7 +25,7 @@
         $payment_method = $_POST['payment_method'];
         $invoice = 'dummy.pdf';
         $date = date('Y-m-d');
-        $time = date('h:m:s a');
+        $time = date('h:i:s a');
 
         $sql = "INSERT INTO orders (user_id,products,quantities,prices,address,payment_method,invoice,date,time) VALUES ('$user_id','$products','$quantities','$prices','$address','$payment_method','$invoice','$date','$time')";
         $query = mysqli_query($link,$sql);

@@ -45,11 +45,42 @@
             </li>
         <?php }} ?>
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle text-white" href="javascript:void(0)" data-toggle="dropdown"><?= isset($_SESSION['name']) ? 'Hi '.strtoupper(explode(' ',$_SESSION['name'])[0]) : 'Hi Guest' ?></a> 
+            <a class="nav-link dropdown-toggle text-white" href="javascript:void(0)" data-toggle="dropdown"><i class='far fa-bell' style="font-size:20px"></i></a>
+            <div class="dropdown-menu">
+            <?php 
+                if(isset($_SESSION['id']) && file_exists('caches/notif_'.$_SESSION['id'].'.json')){
+                $path = 'caches/notif_'.$_SESSION['id'].'.json';
+                $user_id = $_SESSION['id'];
+                $notifications = json_decode(file_get_contents($path));
+                $nsql = "SELECT date,time FROM orders WHERE user_id='$user_id'";
+                $nquery = mysqli_query($link,$nsql);
+                $order = mysqli_fetch_assoc($nquery);
+                foreach($notifications as $time=>$notification){
+                $dif = time() - $time;
+                if($dif < 60){
+                    $showtime = $dif.' sec ago';
+                }else if($dif >= 60 && $dif < 3600){
+                    $showtime = round($dif / 60).' mint ago';
+                }else if($dif >= 3600 && $dif < 86400){
+                    $showtime = round($dif / 3600).' hr ago';
+                }else{
+                    $showtime = round($dif / 86400).' day ago';
+                }
+            ?>
+                <a class="dropdown-item" href="javascript:void(0)"><?= '#ECOM'.strtotime($order['time'].' '.$order['date']).'-'.$notification->orderid ?> Order <?= $notification->status ?>&nbsp;&nbsp;<small class="text-italic text-secondary"><?= $showtime ?></small></a>
+            <?php }
+                echo '<a class="dropdown-item border-top text-center" href="#"><strong>See more</strong></a>';
+            }else{ ?>
+                <a class="dropdown-item" href="javascript:void(0)">No notifications</a>
+            <?php } ?>
+            </div>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-white" href="javascript:void(0)" data-toggle="dropdown"><i class='far fa-user-circle' style="font-size:20px"></i>&nbsp;<?= isset($_SESSION['name']) ? 'Hi '.strtoupper(explode(' ',$_SESSION['name'])[0]) : 'Hi Guest' ?></a> 
             <div class="dropdown-menu">
                 <?php if(isset($_SESSION['id'])){ ?>
-                <a class="dropdown-item" href="#">Edit profile</a>
-                <a class="dropdown-item text-danger" href="logout.php">Logout</a>
+                    <a class="dropdown-item" href="#">Edit profile</a>
+                    <a class="dropdown-item text-danger" href="logout.php">Logout</a>
                 <?php }else{ ?>
                     <a class="dropdown-item" href="signup.php">Register Account</a>
                     <a class="dropdown-item text-success" href="login.php">Login</a>

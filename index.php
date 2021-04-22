@@ -12,7 +12,11 @@
         <img src="assets/images/loader.gif" id="loader" width="100px" style="position:absolute;top:50%;left:50%;z-index:1;display:none">
         <?php if($_SESSION['type'] == 1){ ?>
             <div class="jumbotron mt-5">
-                <h1 class="text-center">Admin Dashboard</h1><br>
+                <h1 class="text-center">Admin Dashboard</h1>
+                <p class="text-center" id="datetime">
+                    <strong id="date">Date: <?= date('d').'<sup>'.date('S').'</sup>'.' '.date('F Y') ?></strong><br>
+                    <strong id="time">Time: <?= date('h:i:s a') ?></strong>
+                </p>
                 <div class="row">
                     <div class="col-md-4">
                         <?php 

@@ -14,8 +14,8 @@
         $password = $_POST['password'];
         $confirm_password = $_POST['confirmpassword'];
         $type = 0;
-        $created_at = date('Y-m-d h:m:s a');
-        $updated_at = date('Y-m-d h:m:s a');
+        $created_at = date('Y-m-d h:i:s a');
+        $updated_at = date('Y-m-d h:i:s a');
 
         if($password == $confirm_password){
             $sql1 = "SELECT * FROM users WHERE email='$email'";
