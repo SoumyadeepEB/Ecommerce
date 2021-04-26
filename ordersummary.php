@@ -141,6 +141,9 @@
                     ?>
                         <h3>Weekly Income</h3>
                         <strong>(<?= date('d F Y',strtotime($monday)).' - '.date('d F Y',strtotime($sunday)) ?>)</strong>
+                        <div class="text-right mb-2">
+                            <button type="button" class="btn btn-success btn-sm" id="weekly-xls"><i class='fas fa-file-excel'></i> Download as XLS</button>
+                        </div>
                         <table class="table table-bordered table-striped table-hover text-uppercase" id="weekly-report">
                             <thead class="bg-dark text-center text-white">
                                 <tr>
@@ -162,10 +165,10 @@
                                     <td id="sun">&#8377 <?= number_format($day7) ?></td>
                                 </tr>
                                 <tr>
-                                    <td colspan="7" class="text-right"><strong>Total: &#8377 <?= number_format($total_weekly_income) ?></strong></td>
+                                    <td colspan="7" class="text-right" id="weekly-total"><strong>Total: <span>&#8377 <?= number_format($total_weekly_income) ?></span></strong></td>
                                 </tr>
                                 <tr>
-                                    <td colspan="7" class="text-right"><strong>Average: &#8377 <?= number_format($avg_weekly,2) ?></strong></td>
+                                    <td colspan="7" class="text-right" id="weekly-avg"><strong>Average: <span>&#8377 <?= number_format($avg_weekly,2) ?></span></strong></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -226,6 +229,9 @@
                     ?>
                         <h3>Monthly Income</h3>
                         <strong>(<?= date('d F Y',strtotime($firstday)).' - '.date('d F Y',strtotime($lastday)) ?>)</strong>
+                        <div class="text-right mb-2">
+                            <button type="button" class="btn btn-success btn-sm" id="monthly-xls"><i class='fas fa-file-excel'></i> Download as XLS</button>
+                        </div>
                         <table class="table table-bordered table-striped table-hover text-uppercase" id="monthly-report">
                             <thead class="bg-dark text-center text-white">
                                 <tr>
@@ -245,10 +251,10 @@
                                     <?= $weeks == 5 ? '<td id="week5">&#8377 '.number_format($week5).'</td>' : '' ?>
                                 </tr>
                                 <tr>
-                                    <td colspan="<?= $weeks ?>" class="text-right"><strong>Total: &#8377 <?= number_format($total_monthly_income) ?></strong></td>
+                                    <td colspan="<?= $weeks ?>" class="text-right" id="monthly-total"><strong>Total: <span>&#8377 <?= number_format($total_monthly_income) ?></span></strong></td>
                                 </tr>
                                 <tr>
-                                    <td colspan="<?= $weeks ?>" class="text-right"><strong>Average: &#8377 <?= number_format($avg_monthly,2) ?></strong></td>
+                                    <td colspan="<?= $weeks ?>" class="text-right" id="monthly-avg"><strong>Average: <span>&#8377 <?= number_format($avg_monthly,2) ?></span></strong></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -327,6 +333,9 @@
                     ?>
                         <h3>Yearly Income</h3>
                         <strong>(<?= date('d F Y',strtotime($firstday_yr)).' - '.date('d F Y',strtotime($lastday_yr)) ?>)</strong>
+                        <div class="text-right mb-2">
+                            <button type="button" class="btn btn-success btn-sm" id="yearly-xls"><i class='fas fa-file-excel'></i> Download as XLS</button>
+                        </div>
                         <table class="table table-bordered table-striped table-hover text-uppercase" id="yearly-report">
                             <thead class="bg-dark text-center text-white">
                                 <tr>
@@ -338,7 +347,7 @@
                                 </tr>
                             </thead>
                             <tbody class="text-center">
-                                <tr class="yearly-data">
+                                <tr id="yearly-data">
                                     <td id="jan">&#8377 <?= number_format($month1) ?></td>
                                     <td id="feb">&#8377 <?= number_format($month2) ?></td>
                                     <td id="mar">&#8377 <?= number_format($month3) ?></td>
@@ -353,10 +362,10 @@
                                     <td id="dec">&#8377 <?= number_format($month12) ?></td>
                                 </tr>
                                 <tr>
-                                    <td colspan="12" class="text-right"><strong>Total: &#8377 <?= number_format($total_yearly_income) ?></strong></td>
+                                    <td colspan="12" class="text-right" id="yearly-total"><strong>Total: <span>&#8377 <?= number_format($total_yearly_income) ?></span></strong></td>
                                 </tr>
                                 <tr>
-                                    <td colspan="12" class="text-right"><strong>Average: &#8377 <?= number_format($avg_yearly,2) ?></strong></td>
+                                    <td colspan="12" class="text-right" id="yearly-avg"><strong>Average: <span>&#8377 <?= number_format($avg_yearly,2) ?></span></strong></td>
                                 </tr>
                             </tbody>
                         </table>

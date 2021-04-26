@@ -142,7 +142,7 @@ $(document).ready(function(){
                 data: {'status':status,'id':id},
                 success: function(response1){
                     var arr = JSON.parse(response1)
-                    if(arr.id == 0){
+                    if(arr.id == 0 || arr.id == 5){
                         $('#'+id+' td span').html(arr.status)
                         $('#'+id+' td span').attr('class','badge badge-danger')
                         $('#ecom'+id).empty()
@@ -208,15 +208,43 @@ $(document).ready(function(){
         $('#yesterday span').html(icon2)
 
         function getHeader(id){
-            header = []
+            var header = []
             $(document).find('#'+id+' thead tr').each(function(){
                 $(this).find('th').each(function(){
                     header.push($(this).text())
                 });
             });
+            return header
         }
 
-        getHeader('weekly-report')
+        function getData(id){
+            var summarydata = []
+            $(document).find('#'+id).each(function(){
+                $(this).find('td').each(function(){
+                    summarydata.push(parseInt($(this).text().split(' ')[1].replace(',','')))
+                });
+            });
+            return summarydata
+        }
+
+        function getWeekOfMonth(date) {
+            const startWeekDayIndex = 1;
+            const firstDate = new Date(date.getFullYear(), date.getMonth(), 1);
+            const firstDay = firstDate.getDay();
+          
+            let weekNumber = Math.ceil((date.getDate() + firstDay) / 7);
+            if (startWeekDayIndex === 1){
+              if(date.getDay() === 0 && date.getDate() > 1){
+                weekNumber -= 1;
+              }
+              if(firstDate.getDate() === 1 && firstDay === 0 && date.getDate() > 1){
+                weekNumber += 1;
+              }
+            }
+            return weekNumber;
+        }
+
+        var header = getHeader('weekly-report')
         key = date.getDay() == 0 ? 6 : date.getDay()-1
         var day = header[key]
         for(i=0; i<header.length; i++){
@@ -227,10 +255,8 @@ $(document).ready(function(){
             }
         }
 
-        getHeader('monthly-report')
-        var adjustedDate = date.getDate() + date.getDay();
-        var prefixes = ['0','1','2','3','4','5'];
-        var num = parseInt(prefixes[0 | adjustedDate / 7]) + 1
+        var header = getHeader('monthly-report')
+        var num = getWeekOfMonth(date)
         var week = 'Week'+num
         for(i=0; i<header.length; i++){
             if(header[i] == week){
@@ -240,7 +266,7 @@ $(document).ready(function(){
             }
         }
 
-        getHeader('yearly-report')
+        var header = getHeader('yearly-report')
         var month = date.toLocaleString('default', {month: 'short'})
         for(i=0; i<header.length; i++){
             if(header[i] == month){
@@ -250,4 +276,94 @@ $(document).ready(function(){
             }
         }
     }
+
+    $('#weekly-xls').on('click',function(){
+        var header = getHeader('weekly-report')
+        var data = getData('weekly-data')
+        var total = parseInt($('#weekly-total strong span').text().split(' ')[1].replace(',',''))
+        var avg = parseFloat($('#weekly-avg strong span').text().split(' ')[1].replace(',',''))
+
+        if(header != null && data != null && total != null && avg != null){
+            $.ajax({
+                url: 'ajax/exportxls.php?filename=weekly_summaryreport.xlsx',
+                type: 'POST',
+                datatype: 'json',
+                data: {'title':'Weekly Summary Report','header':header,'data':data,'total':total,'avg':avg},
+                success: function(response){
+                    window.location.href = 'assets/xlsx/' + response
+                    console.log('download success')
+                },
+                error: function(){
+                    console.log('internal server error')
+                }
+            })
+        }
+    });
+
+    $('#monthly-xls').on('click',function(){
+        var header = getHeader('monthly-report')
+        var data = getData('monthly-data')
+        var total = parseInt($('#monthly-total strong span').text().split(' ')[1].replace(',',''))
+        var avg = parseFloat($('#monthly-avg strong span').text().split(' ')[1].replace(',',''))
+        if(header != null && data != null && total != null && avg != null){
+            $.ajax({
+                url: 'ajax/exportxls.php?filename=monthly_summaryreport.xlsx',
+                type: 'POST',
+                datatype: 'json',
+                data: {'title':'Monthly Summary Report','header':header,'data':data,'total':total,'avg':avg},
+                success: function(response){
+                    window.location.href = 'assets/xlsx/' + response
+                    console.log('download success')
+                },
+                error: function(){
+                    console.log('internal server error')
+                }
+            })
+        }
+    });
+
+    $('#yearly-xls').on('click',function(){
+        var header = getHeader('yearly-report')
+        var data = getData('yearly-data')
+        var total = parseInt($('#yearly-total strong span').text().split(' ')[1].replace(',',''))
+        var avg = parseFloat($('#yearly-avg strong span').text().split(' ')[1].replace(',',''))
+        if(header != null && data != null && total != null && avg != null){
+            $.ajax({
+                url: 'ajax/exportxls.php?filename=yearly_summaryreport.xlsx',
+                type: 'POST',
+                datatype: 'json',
+                data: {'title':'Yearly Summary Report','header':header,'data':data,'total':total,'avg':avg},
+                success: function(response){
+                    window.location.href = 'assets/xlsx/' + response
+                    console.log('download success')
+                },
+                error: function(){
+                    console.log('internal server error')
+                }
+            })
+        }
+    });
+
+    $('.adjust-stock').on('click',function(){
+        var order_id = $(this).data('id')
+        var products = $(this).data('product')
+        var qtys = $(this).data('qty')
+        var prices = $(this).data('price')
+
+        if(order_id != null && products != null && qtys != null && prices != null){
+            $.ajax({
+                url: 'ajax/adjuststocks.php',
+                type: 'POST',
+                datatype: 'json',
+                data: {'order_id':order_id,'products':products,'qtys':qtys,'prices':prices},
+                success: function(response,status){
+                    $('#'+order_id).slideUp();
+                    console.log(status)
+                },
+                error: function(){
+                    console.log('internal server error')
+                }
+            });
+        }
+    });
 });

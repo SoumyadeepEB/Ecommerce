@@ -41,6 +41,7 @@
                 <div class="dropdown-menu">
                     <a class="dropdown-item" href="orderlist.php">List</a>
                     <a class="dropdown-item" href="ordersummary.php">Summary Report</a>
+                    <a class="dropdown-item" href="stockmanagement.php">Stocks Management</a>
                 </div>
             </li>
         <?php }} ?>
@@ -52,10 +53,20 @@
                 $path = 'caches/notif_'.$_SESSION['id'].'.json';
                 $user_id = $_SESSION['id'];
                 $notifications = json_decode(file_get_contents($path));
-                $nsql = "SELECT date,time FROM orders WHERE user_id='$user_id'";
+                $finalarray = []; $keyarray = []; $valuearray = [];
+                foreach($notifications as $key=>$val){
+                    array_push($keyarray,$key);
+                    array_push($valuearray,$val);
+                }
+                for($i=0;$i<count($keyarray);$i++){
+                    $finalarray[$keyarray[$i]] = $valuearray[$i];
+                }
+                krsort($finalarray);
+                foreach($finalarray as $time=>$notification){
+                $nsql = "SELECT date,time FROM orders WHERE user_id='$user_id' AND id='$notification->orderid'";
                 $nquery = mysqli_query($link,$nsql);
                 $order = mysqli_fetch_assoc($nquery);
-                foreach($notifications as $time=>$notification){
+
                 $dif = time() - $time;
                 if($dif < 60){
                     $showtime = $dif.' sec ago';
@@ -66,9 +77,10 @@
                 }else{
                     $showtime = round($dif / 86400).' day ago';
                 }
+                if($dif < 86400*7){
             ?>
                 <a class="dropdown-item" href="javascript:void(0)"><?= '#ECOM'.strtotime($order['time'].' '.$order['date']).'-'.$notification->orderid ?> Order <?= $notification->status ?>&nbsp;&nbsp;<small class="text-italic text-secondary"><?= $showtime ?></small></a>
-            <?php }
+            <?php }}
                 echo '<a class="dropdown-item border-top text-center" href="#"><strong>See more</strong></a>';
             }else{ ?>
                 <a class="dropdown-item" href="javascript:void(0)">No notifications</a>

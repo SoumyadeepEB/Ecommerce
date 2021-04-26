@@ -27,6 +27,7 @@
             $_SESSION['subcat_error'] = 'Subcategory name already exist';
         }
     }
+    $total_page = isset($total_page) ? $total_page : 0;
 ?>
 <head>
     <?php include 'layouts/head.php' ?>

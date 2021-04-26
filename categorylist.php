@@ -26,6 +26,7 @@
             $_SESSION['cat_error'] = 'Category name already exist';
         }
     }
+    $total_page = isset($total_page) ? $total_page : 0;
 ?>
 <head>
     <?php include 'layouts/head.php' ?>

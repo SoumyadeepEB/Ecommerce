@@ -4,13 +4,7 @@
     if(empty($_SESSION['id'])){
         header('location:login.php');
     }
-    $psql = "SELECT id,name FROM product";
-    $pquery = mysqli_query($link,$psql);
-    $product_list = [];
-    while($result = mysqli_fetch_assoc($pquery)){
-        $product_list[$result['id']]['name'] = $result['name'];
-    }
-
+    
     $page = isset($_GET['page']) ? mysqli_real_escape_string($link,$_GET['page']) : 1;
     $limit = 3;
     $offset = ($page - 1) * $limit;
@@ -30,6 +24,14 @@
     <?php include 'layouts/header.php' ?>
     <div class="container">
         <h1>Order List</h1>
+
+        <?php if(isset($_SESSION['success'])){ ?>
+            <div class="alert alert-success"><?= $_SESSION['success']; unset($_SESSION['success']); ?></div>
+        <?php } ?>
+        <?php if(isset($_SESSION['error'])){ ?>
+            <div class="alert alert-danger"><?= $_SESSION['error']; unset($_SESSION['error']); ?></div>
+        <?php } ?>
+
         <?php if(mysqli_num_rows($query) > 0){ $orders = mysqli_fetch_all($query,MYSQLI_ASSOC); $slno = 1; ?>
         <table class="table table-bordered">
             <thead class="bg-dark text-center text-white">
@@ -64,18 +66,15 @@
                     <td class="align-middle text-center"><?= $slno ?></td>
                     <td class="align-middle text-center"><strong><?= '#ECOM'.strtotime($order['time'].' '.$order['date']).'-'.$order['order_id'] ?></strong></td>
                     <?= $_SESSION['type'] == 1 ? '<td class="align-middle text-center">'.$order['user_name'].'</td>' : '' ?>
-                    <?php 
-                        $arr = json_decode($order['products']);
-                        $product_array = [];
-                        foreach($product_list as $id=>$item){
-                            if(in_array($id,$arr)){
-                                $product_array[$id] = $item;
-                            }
-                        }
-                    ?>
                     <td>
                         <ul style="list-style-type:none">
-                            <?php foreach($product_array as $id=>$product){ ?>
+                            <?php 
+                                $arr = json_decode($order['products']);
+                                foreach($arr as $id){ 
+                                    $psql = "SELECT name FROM product WHERE id='$id'";
+                                    $pquery = mysqli_query($link,$psql);
+                                    $product = mysqli_fetch_assoc($pquery);
+                            ?>
                                 <li class="pb-3"><a href="#" data-toggle="popover" title="<?= $product['name'] ?>" data-pid="<?= $id ?>" data-num="<?= $slno ?>" id="<?= $slno.'-'.$id ?>" class="product"><?= $product['name'] ?></li>
                             <?php } ?>
                         </ul>
@@ -88,7 +87,7 @@
                                 foreach(json_decode($order['prices']) as $key=>$price){ 
                                     $total += $price * $quantities[$key]; 
                             ?>
-                                <li class="pb-2">&#8377 <?= $price.'x'.$quantities[$key] ?></li>
+                                <li class="pb-3">&#8377 <?= $price.'x'.$quantities[$key] ?></li>
                             <?php } ?>
                             <li><strong>Total: &#8377 <?= $total ?></strong></li>
                         </ul>
@@ -98,6 +97,7 @@
                     <?php
                         switch($order['status']){
                             case 0:
+                            case 5:
                                 $status = 'Cancelled';
                                 $class = 'badge badge-danger';
                                 break;
@@ -122,12 +122,12 @@
                     <?php if($_SESSION['type'] == 0){ ?>
                         <td class="align-middle text-center"><span class="<?= isset($class) ? $class : '' ?>"><?= isset($status) ? $status : '' ?></span></td>
                     <?php } ?>
-                    <?= $_SESSION['type'] == 0 ? '<td class="align-middle text-center"><a href="assets/invoice/'.$order['invoice'].'" class="text-dark"><i class="fas fa-file-download"></i></a></td>' : '' ?>
+                    <?= $_SESSION['type'] == 0 ? '<td class="align-middle text-center"><a href="pdfinvoice.php?orderid='.$order['order_id'].'" class="text-dark"><i class="fas fa-file-download"></i></a></td>' : '' ?>
                     <td class="align-middle text-center"><?= date('d',strtotime($order['date'])).'<sup>'.date('S',strtotime($order['date'])).'</sup>'.date(' F Y',strtotime($order['date'])).' '.$order['time'] ?></td>
                     <?php if($_SESSION['type'] == 1){ ?> 
                         <td class="align-middle text-center">
                             <span class="<?= isset($class) ? $class : '' ?>"><?= isset($status) ? $status : '' ?></span><br><br>
-                            <?php if($order['status'] != 0 && $order['status'] != 4){ ?>
+                            <?php if($order['status'] != 0 && $order['status'] != 4 && $order['status'] != 5){ ?>
                             <div class="dropdown" id="ecom<?= $order['order_id'] ?>">
                                 <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">Change</button>
                                 <div class="dropdown-menu" id="order-action">

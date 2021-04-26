@@ -1,8 +1,25 @@
 base_url = window.location.origin + '/ecommerce/'
+var date = new Date()
+
+function getWeekOfMonth(date) {
+    const startWeekDayIndex = 1;
+    const firstDate = new Date(date.getFullYear(), date.getMonth(), 1);
+    const firstDay = firstDate.getDay();
+  
+    let weekNumber = Math.ceil((date.getDate() + firstDay) / 7);
+    if (startWeekDayIndex === 1){
+      if(date.getDay() === 0 && date.getDate() > 1){
+        weekNumber -= 1;
+      }
+      if(firstDate.getDate() === 1 && firstDay === 0 && date.getDate() > 1){
+        weekNumber += 1;
+      }
+    }
+    return weekNumber;
+}
+
 if(window.location.href == base_url + 'ordersummary.php'){
     window.onload = function() {
-        var date = new Date()
-
         var today_income = parseInt($('#today').text().split(' ')[1].replace(',',''))
         var yesterday_income = parseInt($('#yesterday').text().split(' ')[1].replace(',',''))
         var total_income = today_income + yesterday_income;
@@ -77,9 +94,7 @@ if(window.location.href == base_url + 'ordersummary.php'){
         };
         $("#chartContainer2").CanvasJSChart(graph2);
 
-        var adjustedDate = date.getDate() + date.getDay()
-        var prefixes = ['0','1','2','3','4','5']
-        var week = parseInt(prefixes[0 | adjustedDate / 7]) + 1
+        var week = getWeekOfMonth(date)
         json = []
         switch(week){
             case 1:

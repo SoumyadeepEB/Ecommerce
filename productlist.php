@@ -6,6 +6,7 @@
     $offset = ($page - 1) * $limit;
     $sql = "SELECT product.id as product_id,category.name as category,subcategory.name as subcategory,product.name as product_name,price,image,stocks,description,product.status as status FROM product INNER JOIN category ON product.cat_id = category.id INNER JOIN subcategory ON product.subcat_id = subcategory.id LIMIT $limit OFFSET $offset";
     $query = mysqli_query($link,$sql);
+    $total_page = isset($total_page) ? $total_page : 0;
 ?>
 <head>
     <?php include 'layouts/head.php' ?>

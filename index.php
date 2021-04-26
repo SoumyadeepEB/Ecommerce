@@ -9,6 +9,7 @@
 <body>
     <?php include 'layouts/header.php' ?>
     <div class="container">
+        <?php //echo '<pre>';print_r($order);die; ?>
         <img src="assets/images/loader.gif" id="loader" width="100px" style="position:absolute;top:50%;left:50%;z-index:1;display:none">
         <?php if($_SESSION['type'] == 1){ ?>
             <div class="jumbotron mt-5">
@@ -131,7 +132,7 @@
                 <?php } ?>
 
                 <h1 class="text-center">Welcome to Ecommerce</h1>
-                <h3>Latest Products</h3>
+                <h3>Latest Products <img src="assets/images/new.gif" width="50"></h3>
                 <div class="row">
                 <?php if(mysqli_num_rows($uquery) > 0){ while($product = mysqli_fetch_assoc($uquery)){ ?>
                     <div class="col-md-4">
