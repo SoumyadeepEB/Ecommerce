@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 22, 2021 at 02:00 PM
+-- Generation Time: Apr 26, 2021 at 02:49 PM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 7.4.16
 
@@ -60,7 +60,7 @@ CREATE TABLE `orders` (
   `address` text NOT NULL,
   `payment_method` varchar(50) NOT NULL,
   `invoice` varchar(100) NOT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '0=cancelled\r\n1=ordered\r\n2=packed\r\n3=shiped\r\n4=delivered',
+  `status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '0/5=cancelled\r\n1=ordered\r\n2=packed\r\n3=shiped\r\n4=delivered',
   `date` varchar(255) NOT NULL,
   `time` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -70,15 +70,16 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `user_id`, `products`, `quantities`, `prices`, `address`, `payment_method`, `invoice`, `status`, `date`, `time`) VALUES
-(15, 2, '[9,11]', '[\"2\",1]', '[\"500\",\"1700\"]', '271 K.C Bose Road, Subhasgram, Pragatipally', 'cod', 'dummy.pdf', 1, '2021-03-29', '04:03:26 pm'),
-(16, 12, '[10,6,7,1]', '[\"1\",3,1,1]', '[\"35000\",\"130\",\"650\",\"1200\"]', 'San Fransisco, USA', 'cod', 'dummy.pdf', 1, '2021-03-30', '04:03:31 pm'),
-(17, 11, '[11,6]', '[\"1\",2]', '[\"1700\",\"130\"]', 'P.C Chandra Road, Kolkata', 'cod', 'dummy.pdf', 1, '2021-04-09', '05:04:32 pm'),
-(18, 13, '[8,5,4]', '[\"2\",3,1]', '[\"950\",\"3500\",\"750\"]', 'Baranagar, Kolkata', 'cod', 'dummy.pdf', 1, '2021-04-09', '05:04:55 pm'),
-(19, 14, '[4,1]', '[3,2]', '[\"750\",\"1200\"]', 'Baruipur', 'cod', 'dummy.pdf', 1, '2021-04-12', '06:04:18 pm'),
-(20, 2, '[6,1,7]', '[\"3\",1,1]', '[\"130\",\"1200\",\"650\"]', '271 K.C Bose Road, Subhasgram, Pragatipally', 'cod', 'dummy.pdf', 1, '2021-04-13', '09:04:00 pm'),
-(21, 14, '[2,6,3]', '[\"1\",2,1]', '[\"10000\",\"130\",\"2500\"]', 'Baruipur', 'cod', 'dummy.pdf', 1, '2021-04-14', '05:04:20 pm'),
-(22, 2, '[10]', '[\"1\"]', '[\"35000\"]', '271 K.C Bose Road, Subhasgram, Pragatipally', 'cod', 'dummy.pdf', 1, '2021-04-20', '09:04:51 pm'),
-(23, 11, '[2,4,8,3]', '[\"1\",1,2,3]', '[\"10000\",\"750\",\"950\",\"2500\"]', 'P.C Chandra Road, Kolkata', 'cod', 'dummy.pdf', 1, '2021-04-21', '10:04:02 pm');
+(15, 2, '[9,11]', '[\"2\",1]', '[\"500\",\"1700\"]', '271 K.C Bose Road, Subhasgram, Pragatipally', 'cod', 'dummy.pdf', 4, '2021-03-29', '04:03:26 pm'),
+(16, 12, '[10,6,7,1]', '[\"1\",3,1,1]', '[\"35000\",\"130\",\"650\",\"1200\"]', 'San Fransisco, USA', 'cod', 'dummy.pdf', 5, '2021-03-30', '04:03:31 pm'),
+(17, 11, '[11,6]', '[\"1\",2]', '[\"1700\",\"130\"]', 'P.C Chandra Road, Kolkata', 'cod', 'dummy.pdf', 4, '2021-04-09', '05:04:32 pm'),
+(18, 13, '[8,5,4]', '[\"2\",3,1]', '[\"950\",\"3500\",\"750\"]', 'Baranagar, Kolkata', 'cod', 'dummy.pdf', 4, '2021-04-09', '05:04:55 pm'),
+(19, 14, '[4,1]', '[3,2]', '[\"750\",\"1200\"]', 'Baruipur', 'cod', 'dummy.pdf', 4, '2021-04-12', '06:04:18 pm'),
+(20, 2, '[6,1,7]', '[\"3\",1,1]', '[\"130\",\"1200\",\"650\"]', '271 K.C Bose Road, Subhasgram, Pragatipally', 'cod', 'dummy.pdf', 4, '2021-04-13', '09:04:00 pm'),
+(21, 14, '[2,6,3]', '[\"1\",2,1]', '[\"10000\",\"130\",\"2500\"]', 'Baruipur', 'cod', 'dummy.pdf', 4, '2021-04-14', '05:04:20 pm'),
+(22, 2, '[10]', '[\"1\"]', '[\"35000\"]', '271 K.C Bose Road, Subhasgram, Pragatipally', 'cod', 'dummy.pdf', 5, '2021-04-20', '09:04:51 pm'),
+(23, 11, '[2,4,8,3]', '[\"1\",1,2,3]', '[\"10000\",\"750\",\"950\",\"2500\"]', 'P.C Chandra Road, Kolkata', 'cod', 'dummy.pdf', 4, '2021-04-21', '10:04:02 pm'),
+(24, 11, '[7,1]', '[2,1]', '[\"650\",\"1200\"]', 'P.C Chandra Road, Kolkata', 'cod', 'dummy.pdf', 4, '2021-04-24', '10:11:58 am');
 
 -- --------------------------------------------------------
 
@@ -108,11 +109,11 @@ INSERT INTO `product` (`id`, `cat_id`, `subcat_id`, `name`, `price`, `image`, `s
 (3, 2, 10, 'Necklase', '2500', 'product_img_1616183700.jpg', 26, 'Lorem Ipsum is simply dummy text', 1),
 (4, 3, 7, 'Family dinner set', '750', 'product_img_1616308254.jpg', 5, 'Lorem Ipsum is simply dummy text', 1),
 (5, 2, 13, 'Foliage dream Sari', '3500', 'product_img_1616341578.jpg', 12, 'Lorem Ipsum is simply dummy text', 1),
-(6, 5, 11, 'Mastered Oil', '130', 'product_img_1616477477.jpg', 30, 'Lorem Ipsum is simply dummy text', 1),
-(7, 1, 6, 'Round necked Tshirt', '650', 'product_img_1616477696.jpg', 3, 'Lorem Ipsum is simply dummy text', 1),
+(6, 5, 11, 'Mastered Oil', '130', 'product_img_1616477477.jpg', 33, 'Lorem Ipsum is simply dummy text', 1),
+(7, 1, 6, 'Round necked Tshirt', '650', 'product_img_1616477696.jpg', 2, 'Lorem Ipsum is simply dummy text', 1),
 (8, 2, 3, 'Pink Cotton Kurti', '950', 'product_img_1616505148.jpg', 8, 'Lorem Ipsum is simply dummy text', 1),
 (9, 3, 2, '2 Container Lunchbox', '500', 'product_img_1616508116.jpg', 0, 'Borosil 2 Container CarryFresh SS Insulated Lunch Box', 1),
-(10, 4, 14, 'HP Laptop', '35000', 'product_img_1616580379.jpg', 8, 'Best laptop for office purpose', 1),
+(10, 4, 14, 'HP Laptop', '35000', 'product_img_1616580379.jpg', 10, 'Best laptop for office purpose', 1),
 (11, 10, 15, 'India ODI Jersey', '1700', 'product_img_1616596282.jpg', 8, 'Exclusive India Cricket team jersey ', 1);
 
 -- --------------------------------------------------------
@@ -233,7 +234,7 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `product`
